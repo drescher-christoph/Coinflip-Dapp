@@ -1,0 +1,38 @@
+# .gitignore für dein Projekt erstellen
+cat > .gitignore << EOF
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Environment variables
+.env
+.env.local
+.env*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# TypeScript
+*.tsbuildinfo
+EOF
+
+# .gitignore auch hinzufügen
+git add .gitignore
+git commit -m "Add .gitignore"

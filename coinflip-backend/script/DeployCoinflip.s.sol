@@ -1,0 +1,62 @@
+//SPDX-License-Identifier: MIT
+pragma solidity ^0.8.13;
+
+import {Script, console2} from "forge-std/Script.sol";
+import {Coinflip} from "../src/Coinflip.sol";
+import {HelperConfig} from "./HelperConfig.s.sol";
+import { CreateSubscription, AddConsumer, FundSubscription } from "./Interactions.s.sol";
+
+contract DeployCoinflip is Script {
+
+    HelperConfig helperConfig = new HelperConfig();
+    AddConsumer addConsumer = new AddConsumer();
+    
+    uint256 subscriptionId = 88327719654090601921142408330809092623891282954460433220602055828137472325064;
+    address vrfCoordinatorV2 = 0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B;
+    bytes32 gasLane = 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae;
+    uint32 callBackGasLimit = 250000;
+    address owner_address = 0xF87FF5BB6A8dD6F97307d61605D838ea7e22E3e6;
+
+    function run() external returns (Coinflip) {
+        vm.startBroadcast();
+        Coinflip coinflip = new Coinflip(
+            subscriptionId,
+            vrfCoordinatorV2,
+            gasLane,
+            callBackGasLimit,
+            owner_address
+        );
+        vm.stopBroadcast();
+        console2.log("Coinflip deployed to:", address(coinflip));
+        return coinflip;
+    }
+
+    function runLocal() external returns (Coinflip, HelperConfig) {
+        HelperConfig.NetworkConfig memory config = helperConfig.getConfig();
+
+        if (config.subscriptionId == 0) {
+            CreateSubscription createSubscription = new CreateSubscription();
+            (config.subscriptionId, config.vrfCoordinatorV2_5) =
+                createSubscription.createSubscription(config.vrfCoordinatorV2_5, config.account);
+
+            FundSubscription fundSubscription = new FundSubscription();
+            fundSubscription.fundSubscription(
+                config.vrfCoordinatorV2_5, config.subscriptionId, config.link, config.account
+            );
+
+            helperConfig.setConfig(block.chainid, config);
+        }
+        
+        Coinflip coinflip = new Coinflip(
+            config.subscriptionId,
+            config.vrfCoordinatorV2_5,
+            config.gasLane,
+            config.callbackGasLimit,
+            config.account
+        );
+        console2.log("Coinflip deployed to:", address(coinflip));
+
+        addConsumer.addConsumer(address(coinflip), config.vrfCoordinatorV2_5, config.subscriptionId, config.account);
+        return (coinflip, helperConfig);
+    }
+}
