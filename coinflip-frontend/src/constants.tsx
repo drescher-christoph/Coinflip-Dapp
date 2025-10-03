@@ -10,19 +10,19 @@ export const chainsToCoinflip: ContractsConfig = {
   },
   // Optimism Sepolia
   11155420: {
-    contract: "0xe4a2b0f1DDB9283cDE9814a685Fb3427d6DF4EE0",
+    contract: "0xd9cb648580743b790b474d7c3ce4388c5504cbe8",
   },
   // Base Sepolia
   84532: {
-    contract: "0xe4a2b0f1DDB9283cDE9814a685Fb3427d6DF4EE0",
+    contract: "",
   },
   // Arbitrum Sepolia
   421614: {
-    contract: "0xe9C0338D16594DE972E6997994366459e68Ec076",
+    contract: "0x929f02317AccC9076eae706F5EC127F8cC948846",
   },
   // Polygon Amoy
   80002: {
-    contract: "0xC0E2F0AF6fc4492b7974dE22CA178566316D15a3",
+    contract: "",
   },
 };
 

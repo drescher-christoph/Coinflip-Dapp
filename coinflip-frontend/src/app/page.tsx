@@ -172,7 +172,7 @@ export default function Home() {
       <div className="flex flex-col items-center gap-4 text-white">
         {isConnected ? (
           <div className="flex flex-col items-center gap-4 text-center">
-            <h2 className="text-5xl font-bold">{!isLoading && "Double or Nothing!"}</h2>
+            <h2 className="text-5xl font-bold">{!isLoading && betResult == null && "Double or Nothing!"}</h2>
             {betResult && betResult.won ? (
               <div>
                 <h2 className="text-5xl text-white">Congratulations</h2>

@@ -1,1 +1,2 @@
-# entweder das deploy skript für die verschiedenen Chains spezifizieren um die jeweilige subID zu übergeben, oder eine Funktion in den Contract umbauen die die SubId austauscht (empfohlen!)
+# implement subgraph to track recent winnings and present them in a list (e.g. User - Tx Hash - Won: xy ETH)
+# KEY HASH!!!!

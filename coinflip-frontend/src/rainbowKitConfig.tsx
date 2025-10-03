@@ -6,6 +6,6 @@ import {sepolia, baseSepolia, arbitrumSepolia, optimismSepolia, polygonAmoy} fro
 export default getDefaultConfig({
     appName: "TSender",
     projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
-    chains: [sepolia, baseSepolia, arbitrumSepolia, optimismSepolia, polygonAmoy],
+    chains: [sepolia, arbitrumSepolia, optimismSepolia],
     ssr: false
 })

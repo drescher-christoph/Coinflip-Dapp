@@ -20,13 +20,19 @@ contract DeployCoinflip is Script {
     // Arbitrum Sepolia
     uint256 arbSubscriptionId = 85996164725439192785575018397926566260373797817144171741979805287196750157280;
     address arbVrfCoordinatorV2 = 0x5CE8D5A2BC84beb22a398CCA51996F7930313D61;
+    bytes32 arbGasLane = 0x1770bdc7eec7771f7ba4ffd640f34260d7f095b79c92d34a5b2551d6f6cfd2be;
+
+    // Optimism Sepolia
+    uint256 opSubscriptionId = 94853400668923125398722633679513434497026055395569551681467756146720114742401;
+    address opVrfCoordinatorV2 = 0x02667f44a6a44E4BDddCF80e724512Ad3426B17d;
+    bytes32 opGasLane = 0xc3d5bc4d5600fa71f7a50b9ad841f14f24f9ca4236fd00bdb5fda56b052b28a4;
 
     function run() external returns (Coinflip) {
         vm.startBroadcast();
         Coinflip coinflip = new Coinflip(
-            subscriptionId,
-            vrfCoordinatorV2,
-            gasLane,
+            opSubscriptionId,
+            opVrfCoordinatorV2,
+            opGasLane,
             callBackGasLimit,
             owner_address
         );
