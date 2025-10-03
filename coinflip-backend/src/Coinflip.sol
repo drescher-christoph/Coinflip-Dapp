@@ -38,11 +38,11 @@ contract Coinflip is VRFConsumerBaseV2Plus {
     uint256 public s_profit;
     uint256 public s_loss;
     uint256 public s_feesCollected;
+    uint256 public s_subscriptionId;
 
     mapping(uint256 betId => Bet bet) public s_bets;
 
     address immutable i_owner;
-    uint256 immutable i_subscriptionId;
     bytes32 private immutable i_gasLane;
     uint32 private immutable i_callbackGasLimit;
     uint16 private constant REQUEST_CONFIRMATIONS = 3;
@@ -72,7 +72,7 @@ contract Coinflip is VRFConsumerBaseV2Plus {
         uint32 callbackGasLimit,
         address owner_address
     ) VRFConsumerBaseV2Plus(vrfCoordinatorV2) {
-        i_subscriptionId = subscriptionId;
+        s_subscriptionId = subscriptionId;
         i_owner = owner_address;
         i_gasLane = gasLane;
         i_callbackGasLimit = callbackGasLimit;
@@ -97,7 +97,7 @@ contract Coinflip is VRFConsumerBaseV2Plus {
         VRFV2PlusClient.RandomWordsRequest memory req = VRFV2PlusClient
             .RandomWordsRequest({
                 keyHash: i_gasLane,
-                subId: i_subscriptionId,
+                subId: s_subscriptionId,
                 requestConfirmations: REQUEST_CONFIRMATIONS,
                 callbackGasLimit: i_callbackGasLimit,
                 numWords: NUM_WORDS,
@@ -145,6 +145,10 @@ contract Coinflip is VRFConsumerBaseV2Plus {
         emit BetResult(requestId, betData.player, betData.amount, payout, won);
 
         delete s_bets[requestId];
+    }
+
+    function updateSubscriptionId(uint256 newSubscriptionId) external OnlyOwner {
+        s_subscriptionId = newSubscriptionId;
     }
 
     function withdraw() external OnlyOwner {

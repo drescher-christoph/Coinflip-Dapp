@@ -17,6 +17,10 @@ contract DeployCoinflip is Script {
     uint32 callBackGasLimit = 250000;
     address owner_address = 0xF87FF5BB6A8dD6F97307d61605D838ea7e22E3e6;
 
+    // Arbitrum Sepolia
+    uint256 arbSubscriptionId = 85996164725439192785575018397926566260373797817144171741979805287196750157280;
+    address arbVrfCoordinatorV2 = 0x5CE8D5A2BC84beb22a398CCA51996F7930313D61;
+
     function run() external returns (Coinflip) {
         vm.startBroadcast();
         Coinflip coinflip = new Coinflip(

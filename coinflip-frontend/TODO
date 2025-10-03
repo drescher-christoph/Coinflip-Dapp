@@ -1,0 +1,1 @@
+# entweder das deploy skript für die verschiedenen Chains spezifizieren um die jeweilige subID zu übergeben, oder eine Funktion in den Contract umbauen die die SubId austauscht (empfohlen!)
