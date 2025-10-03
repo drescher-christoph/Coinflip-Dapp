@@ -14,6 +14,7 @@ import CoinFlip from "@/components/CoinFlip";
 import { coinflipAbi, chainsToCoinflip } from "@/constants";
 import { useState } from "react";
 import { ethers } from "ethers";
+import Confetti from "react-confetti";
 
 type BetPlacedArgs = {
   betId: bigint;
@@ -172,76 +173,86 @@ export default function Home() {
       <div className="flex flex-col items-center gap-4 text-white">
         {isConnected ? (
           <div className="flex flex-col items-center gap-4 text-center">
-            <h2 className="text-5xl font-bold">{!isLoading && betResult == null && "Double or Nothing!"}</h2>
-            {betResult && betResult.won ? (
+            {betResult && betResult.won && <Confetti width={window.innerWidth} height={window.innerHeight} />}
+            <h2 className="text-5xl font-bold">
+              {!isLoading && betResult == null ? "Double or Nothing!" : isLoading && "What will it be?"}
+            </h2>
+            {betResult ? (
               <div>
-                <h2 className="text-5xl text-white">Congratulations</h2>
-                <h2 className="text-7xl text-[#FFB000]">
-                  You`ve won {ethers.formatUnits(betResult.amountOut)} ETH
-                </h2>
                 <h2 className="text-5xl text-white">
-                  Double or Nothing? Wanna try again?
+                  {betResult.won
+                    ? "Congratulations!"
+                    : "Better luck next time!"}
                 </h2>
-              </div>
-            ) : betResult?.won == false ? (
-              <div>
-                <h2 className="text-4xl text-white">Sorry, you lost...</h2>
-                <h2 className="text-5xl text-[#FFB000]">
-                  Try again and turn it around!
+                <h2 className="text-7xl text-[#FFB000] py-4">
+                  {betResult.won
+                    ? "You`ve won " +
+                      ethers.formatUnits(betResult.amountOut) +
+                      " ETH"
+                    : "Try again and turn it around!"}
                 </h2>
+                {betResult.won && (
+                  <h2 className="text-5xl text-white pb-4">
+                    Double or Nothing? Wanna try again?
+                  </h2>
+                )}
               </div>
             ) : isLoading && !betResult ? (
               <CoinFlip />
             ) : (
               <img src={`/coin/1.png`} alt="Coin" width={200} height={200} />
             )}
-            <div className="flex flex-row items-center justify-center gap-2">
-              <button
-                onClick={() => setBetGuess(true)}
-                className={`rounded-full border-2 border-white px-4 py-2 font-bold transition-colors duration-200 ${
-                  betGuess === true
-                    ? "bg-white text-green-800"
-                    : "bg-transparent text-white hover:bg-white hover:text-green-800"
-                }`}
-              >
-                Head
-              </button>
-              <button
-                onClick={() => setBetGuess(false)}
-                className={`rounded-full border-2 border-white px-4 py-2 font-bold transition-colors duration-200 ${
-                  betGuess === false
-                    ? "bg-white text-green-800"
-                    : "bg-transparent text-white hover:bg-white hover:text-green-800"
-                }`}
-              >
-                Tail
-              </button>
-            </div>
-            <div className="flex flex-row items-center justify-center gap-2">
-              {quickAmounts.map((amount) => (
+            {!isLoading && (
+              <>
+                <div className="flex flex-row items-center justify-center gap-2">
+                  <button
+                    onClick={() => setBetGuess(true)}
+                    className={`rounded-full border-2 border-white px-4 py-2 font-bold transition-colors duration-200 ${
+                      betGuess === true
+                        ? "bg-white text-green-800"
+                        : "bg-transparent text-white hover:bg-white hover:text-green-800"
+                    }`}
+                  >
+                    Head
+                  </button>
+                  <button
+                    onClick={() => setBetGuess(false)}
+                    className={`rounded-full border-2 border-white px-4 py-2 font-bold transition-colors duration-200 ${
+                      betGuess === false
+                        ? "bg-white text-green-800"
+                        : "bg-transparent text-white hover:bg-white hover:text-green-800"
+                    }`}
+                  >
+                    Tail
+                  </button>
+                </div>
+                <div className="flex flex-row items-center justify-center gap-2">
+                  {quickAmounts.map((amount) => (
+                    <button
+                      key={amount}
+                      onClick={() => setBetAmount(amount)}
+                      className={`rounded-full border-2 border-white px-4 py-2 font-bold transition-colors duration-200 ${
+                        betAmount === amount
+                          ? "bg-white text-green-800"
+                          : "bg-transparent text-white hover:bg-white hover:text-green-800"
+                      }`}
+                    >
+                      {amount} ETH
+                    </button>
+                  ))}
+                </div>
                 <button
-                  key={amount}
-                  onClick={() => setBetAmount(amount)}
-                  className={`rounded-full border-2 border-white px-4 py-2 font-bold transition-colors duration-200 ${
-                    betAmount === amount
-                      ? "bg-white text-green-800"
-                      : "bg-transparent text-white hover:bg-white hover:text-green-800"
+                  onClick={() => flipCoin()}
+                  className={`rounded-full border-2 text-2xl border-white px-4 py-2 font-bold transition-colors duration-200 ${
+                    betGuess !== null &&
+                    betAmount !== null &&
+                    "bg-green-800 text-white hover:bg-[#FFB000]"
                   }`}
                 >
-                  {amount} ETH
+                  Flip!
                 </button>
-              ))}
-            </div>
-            <button
-              onClick={() => flipCoin()}
-              className={`rounded-full border-2 text-2xl border-white px-4 py-2 font-bold transition-colors duration-200 ${
-                betGuess !== null &&
-                betAmount !== null &&
-                "bg-green-800 text-white hover:bg-[#FFB000]"
-              }`}
-            >
-              Flip!
-            </button>
+              </>
+            )}
             {betResult && betResult.won ? (
               <Image
                 src="/leprechaun/leprechaun3.png"
