@@ -16,7 +16,7 @@ export default function Header() {
             priority
           />
           <a
-            href="https://github.com/your-repo" // 👉 Hier deine Repo-URL einfügen
+            href="https://github.com/drescher-christoph/Coinflip-Dapp" 
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
