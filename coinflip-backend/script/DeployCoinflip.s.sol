@@ -30,9 +30,9 @@ contract DeployCoinflip is Script {
     function run() external returns (Coinflip) {
         vm.startBroadcast();
         Coinflip coinflip = new Coinflip(
-            opSubscriptionId,
-            opVrfCoordinatorV2,
-            opGasLane,
+            subscriptionId,
+            vrfCoordinatorV2,
+            gasLane,
             callBackGasLimit,
             owner_address
         );

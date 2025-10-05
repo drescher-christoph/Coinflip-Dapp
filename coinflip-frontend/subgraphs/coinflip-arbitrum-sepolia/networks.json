@@ -1,0 +1,8 @@
+{
+  "arbitrum-sepolia": {
+    "Coinflip": {
+      "address": "0x929f02317AccC9076eae706F5EC127F8cC948846",
+      "startBlock": 200724825
+    }
+  }
+}
