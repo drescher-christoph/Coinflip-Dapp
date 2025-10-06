@@ -16,7 +16,7 @@ export const StatsTable = () => {
     betResultsError
   );
   return (
-    <div className="flex flex-col items-center pt-6 w-full">
+    <div className="flex flex-col items-center py-6 w-full">
       <h2 className="text-3xl font-bold pt-6">Recent Bets</h2>
       <div className="max-h-96 overflow-y-auto">
         {isBetResultsLoading ? (

@@ -15,6 +15,7 @@ import { coinflipAbi, chainsToCoinflip } from "@/constants";
 import { useState } from "react";
 import { ethers } from "ethers";
 import Confetti from "react-confetti";
+import { StatsTable } from "@/components/StatsTable";
 
 type BetPlacedArgs = {
   betId: bigint;
@@ -173,9 +174,13 @@ export default function Home() {
       <div className="flex flex-col items-center gap-4 text-white">
         {isConnected ? (
           <div className="flex flex-col items-center gap-4 text-center">
-            {betResult && betResult.won && <Confetti width={window.innerWidth} height={window.innerHeight} />}
+            {betResult && betResult.won && (
+              <Confetti width={window.innerWidth} height={window.innerHeight} />
+            )}
             <h2 className="text-5xl font-bold">
-              {!isLoading && betResult == null ? "Double or Nothing!" : isLoading && "What will it be?"}
+              {!isLoading && betResult == null
+                ? "Double or Nothing!"
+                : isLoading && "What will it be?"}
             </h2>
             {betResult ? (
               <div>
@@ -309,6 +314,11 @@ export default function Home() {
           priority
           className="pointer-events-none absolute bottom-[-150px] right-6 max-w-none select-none drop-shadow-[0_0_30px_rgba(0,0,0,0.45)]"
         />
+      )}
+      {!isLoading && betResult == null && isConnected && (
+        <div className="w-full">
+          <StatsTable />
+        </div>
       )}
     </main>
   );
