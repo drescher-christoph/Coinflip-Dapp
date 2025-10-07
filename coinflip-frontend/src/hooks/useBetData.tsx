@@ -2,9 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { gql, request } from "graphql-request";
 import { useState } from "react";
 import { useChainId } from "wagmi";
+import { chainsToSubgraph } from "../constants";
 
-const URL =
-  "https://api.studio.thegraph.com/query/119639/coinflip-arbitrum-sepolia/version/latest";
 const TOKEN = process.env.NEXT_PUBLIC_GRAPHQL_TOKEN!;
 
 interface BetResult {
@@ -20,7 +19,7 @@ interface BetResult {
 
 const GET_BET_RESULTS_QUERY = gql`
   {
-    betResults(first: 5) {
+    betResults(first: 5, orderBy: blockTimestamp, orderDirection: desc) {
       id
       betId
       player
@@ -34,6 +33,8 @@ const GET_BET_RESULTS_QUERY = gql`
 `;
 
 export default function useBetData() {
+  const chainId = useChainId();
+  const URL = chainsToSubgraph[chainId].url;
   return useQuery({
     queryKey: ["betResults"],
     queryFn: async () => {

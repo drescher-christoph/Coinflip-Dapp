@@ -4,6 +4,12 @@ interface ContractsConfig {
   };
 }
 
+interface SubgraphsConfig {
+  [chainId: number]: {
+    url: string;
+  };
+}
+
 export const chainsToCoinflip: ContractsConfig = {
   11155111: {
     contract: "0x6359F02648E3E86272587F3fFD798b714A5BB3B9",
@@ -25,6 +31,16 @@ export const chainsToCoinflip: ContractsConfig = {
     contract: "",
   },
 };
+
+export const chainsToSubgraph: SubgraphsConfig = {
+  11155111: {
+    url: "https://api.studio.thegraph.com/query/119639/coinflip-sepolia/version/latest",
+  },
+  // Arbitrum Sepolia
+  421614: {
+    url: "https://api.studio.thegraph.com/query/119639/coinflip-arbitrum-sepolia/version/latest",
+  },
+}
 
 export const coinflipAbi = [
   {

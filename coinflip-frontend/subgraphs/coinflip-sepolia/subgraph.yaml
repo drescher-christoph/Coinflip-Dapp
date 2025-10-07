@@ -6,7 +6,7 @@ schema:
 dataSources:
   - kind: ethereum
     name: Coinflip
-    network: mainnet
+    network: sepolia
     source:
       address: "0x6359F02648E3E86272587F3fFD798b714A5BB3B9"
       abi: Coinflip
